@@ -1,0 +1,76 @@
+ @import "~igniteui-angular/lib/core/styles/themes/index";
+ 
+.content-wrap {
+  display: flex;
+  height: 100%;
+}
+
+main {
+  height: 100%;
+  overflow: auto;
+  padding: 16px;
+  h5 {
+    padding: 8px 0;
+  }
+  // position: absolute;
+  // top: 0;
+  // right: 0;
+  // bottom: 0;
+  // left: 0;
+  // overflow: hidden;
+
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+:host {
+  display: block;
+  height: 100%;
+
+    $custom-theme: igx-navdrawer-theme(
+    $background: #035375,
+    $item-active-background: #ecc256,
+    $item-header-text-color: #f3c03e,
+  );
+
+  ::ng-deep {
+    @include igx-navdrawer($custom-theme);
+    .igx-nav-drawer__item--header {
+      white-space: unset;
+    }
+    .igx-nav-drawer__item {
+      max-height: 100%;
+      flex-direction: column;
+    }
+    .parent {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      igx-icon {
+        margin-right: 8px;
+      }
+    }
+    .children {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+    @for $i from 1 through 10 {
+      .children--level-#{$i - 1} {
+        > span {
+          padding-left: $i * 15px;
+        }
+      }
+    }
+    .content {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

@@ -1,0 +1,68 @@
+<div class="content-wrap">
+  <igx-nav-drawer id="navigation" #drawer [isOpen]="drawerState.open" [(pin)]="drawerState.pin" [pinThreshold]="5000"  width="250px">
+    <ng-template igxDrawer>
+      <nav>
+        <ng-container *ngFor="let item of navItems">
+          <ng-container *ngTemplateOutlet="itemTemplate, context: { $implicit: item }">
+          </ng-container>
+        </ng-container>
+      </nav>
+    </ng-template>
+  </igx-nav-drawer>
+
+  <!-- <span igxDrawerItem [active]="item.children === undefined && item.text === selected" igxRipple
+    [ngClass]="item.text==='Furniture' ? 'disabled' : ''"
+    [hidden]="item.text==='Fashion' || item.text==='Phones' || item.text==='Living Room'" (click)="navigate(item);"> -->
+
+  <ng-template #itemTemplate let-item>
+    <span igxDrawerItem [active]="item.children === undefined && item.text === selected" igxRipple routerLinkActive="router-link-active" (click)="navigate(item);">
+      <div class="parent">
+        <div class="content">
+          <span *ngIf="item.children" style="width: 100%; text-align: right; padding-left: 0">
+            <igx-icon *ngIf="item.collapsed" fontSet="material" style="vertical-align: middle">keyboard_arrow_right
+            </igx-icon>
+            <igx-icon *ngIf="!item.collapsed" fontSet="material" style="vertical-align: middle">keyboard_arrow_down
+            </igx-icon>
+          </span>
+          <span *ngIf="!item.children" style="width: 100%; text-align: right; padding-left: 2rem">
+          </span>
+          <span>{{ item.text }}</span>
+        </div>
+        <igx-icon fontSet="material">{{ item.name }}</igx-icon>
+      </div>
+    </span>
+    <div [ngClass]="'children--level-' + (item.level)" class="children">
+      <ng-container *ngIf="!item.collapsed && item.children">
+        <ng-container *ngFor="let child of item.children">
+          <ng-container *ngTemplateOutlet="itemTemplate, context: { $implicit: child }">
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+  </ng-template>
+
+  <div igxFlex igxLayout igxLayoutDir="columns">
+    <igx-navbar title="TWINBEE SALES" actionButtonIcon="arrow_back" (onAction)="drawer.toggle()">
+
+      <button class="btn btn-danger my-2 my-sm-0" (click)="onLogout()">Logout</button>
+      <span>UserName: {{currentUser | uppercase }}</span>
+
+      <igx-icon>home</igx-icon>
+    </igx-navbar>
+
+    <div class="contentDisplay" igxFlex>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <!-- <main>
+    <span igxButton="icon" igxToggleAction="navigation">
+      <igx-icon fontSet="material">menu</igx-icon>
+    </span>
+
+    <h5>{{selected}} content.</h5>
+  </main> -->
+  <!-- <div class="contentDisplay" igxFlex>
+    <router-outlet></router-outlet>
+  </div> -->
+</div>
